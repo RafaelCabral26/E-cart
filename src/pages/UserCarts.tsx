@@ -27,7 +27,7 @@ export const UserCart = () => {
         handleStorage()
         window.addEventListener('storage', handleStorage)
         return () => window.removeEventListener('storage', handleStorage)
-    }, [])
+    }, []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)
 
     return (
         <div className="flex h-screen items-center justify-center bg-gray-100 ">
