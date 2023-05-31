@@ -10,7 +10,7 @@ router.post("/add_product", async (req,res) => {
         const user = await checkToken(req);
         const productExists = await ProductModel.exists({product_name:req.body.product_name})
         if(productExists) return res.status(200).json({msg:"Esse produto já existe"})
-        if(typeof user === 'object' && user.profile === 1) {
+        if(typeof user === 'object' && user['profile'] === 1) {
             await ProductModel.create(req.body)
             return res.status(200).json({msg:"Produto Adicionado"})
         }

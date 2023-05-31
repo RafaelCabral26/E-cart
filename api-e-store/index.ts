@@ -3,7 +3,9 @@ import express from 'express'
 import cors from 'cors'
 import { allRoutes } from "./routes/Routes"
 import cookieParser from 'cookie-parser'
+import dotenv from 'dotenv'
 
+dotenv.config()
 connect()
 
 const app = express()

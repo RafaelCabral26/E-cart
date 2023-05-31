@@ -1,7 +1,6 @@
-import jwt, { Secret } from "jsonwebtoken";
+import jwt, { GetPublicKeyOrSecret, Secret } from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { TUser } from "../models/userModel";
-import { sanitizedConfig } from "../config/configEnv";
 import { Request } from "express";
 import { IncomingHttpHeaders } from "http";
 
@@ -24,7 +23,7 @@ export const comparePasswords = async (inputPassword: string, DbPassword: string
 
 export const createToken = async (user: TUser) => {
     try {
-        const secret = sanitizedConfig.SECRET_KEY;
+        const secret = process.env.SECRET_KEY as Secret;
         const payload = { id: user._id, email: user.email, profile: user.profile };
         const token = jwt.sign(payload, secret, { expiresIn: "10 days" });
         return token;
@@ -36,7 +35,7 @@ export const createToken = async (user: TUser) => {
 
 export const checkToken = async (req: CustomRequest) => {
     try {
-        const secret = sanitizedConfig.SECRET_KEY;
+        const secret = process.env.SECRET_KEY as Secret | GetPublicKeyOrSecret;
         const token = req.cookies.authcookie;
         if (token === undefined) {
             return "Sem token de acesso";

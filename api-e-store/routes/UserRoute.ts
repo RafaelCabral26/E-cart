@@ -15,9 +15,9 @@ router.post("/check_user", async (req, res) => {
         if (typeof userToken === 'object') {
             checker = true
             storageArrayCart.forEach(async (e: any) => {
-                await UserModel.findOneAndUpdate({ _id: userToken.id }, { $addToSet: { cart:e } }, )
+                await UserModel.findOneAndUpdate({ _id: userToken["id"] }, { $addToSet: { cart:e } }, )
             })
-            const user = await UserModel.findById(userToken.id)
+            const user = await UserModel.findById(userToken["id"])
             return res.status(200).json({loggedIn:checker, cart:user?.cart})
         }
 
@@ -31,7 +31,7 @@ router.post("/delete_product", async (req,res) => {
     try {
         const userToken = await checkToken(req);
         if (typeof userToken === 'object') {
-            await UserModel.findOneAndUpdate({_id:userToken.id}, {$pull : {cart:req.body}})
+            await UserModel.findOneAndUpdate({_id:userToken["id"]}, {$pull : {cart:req.body}})
             return res.status(200).json({msg:"Produto Deletado"});
         }
     } catch (err) {
