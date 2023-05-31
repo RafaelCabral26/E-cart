@@ -32,7 +32,6 @@ const LoginModal: React.FC<TModal> = ({ loginModal, setLoginModal, registerModal
     const [loginInput, setLoginInput] = React.useState({ email: "", password: "" });
     const clickOutsiteRef = React.useRef<HTMLElement>(null);
     const user = React.useContext(UserContext);
-    console.log(user?.loggedIn)
     useOnClickOutside(clickOutsiteRef, () => {
         setLoginModal(!loginModal);
     });

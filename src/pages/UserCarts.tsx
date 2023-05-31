@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import useLocalStorage from "../components/StorageHandler"
 import http from "../services/axios"
 import { CreateAlert } from "../components/AlertModal"
+import { TrashSvg } from "../svgs/trash"
 
 export const UserCart = () => {
     const [storageProducts, setStorageProducts] = useLocalStorage("cart", [])
@@ -22,16 +23,16 @@ export const UserCart = () => {
         setTotalCartPrice(totalPrice)
 
     }
-    
+
     useEffect(() => {
         handleStorage()
         window.addEventListener('storage', handleStorage)
         return () => window.removeEventListener('storage', handleStorage)
-    }, []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)
+    }, [])
 
     return (
         <div className="flex h-screen items-center justify-center bg-gray-100 ">
-            <VisualNavbar/>
+            <VisualNavbar />
             <div className="flex  flex-col items-center container h-[75%] bg-white ">
                 <div className="flex flex-col items-center overflow-y-scroll  w-full">
                     {storageProducts.length === 0 ? <h1 className="m-auto">Carrinho Vazio...</h1> :
@@ -42,7 +43,7 @@ export const UserCart = () => {
                 </div>
                 <div className="m-10" >
                     <div className="flex gap-4">
-                        <button onClick={() => {setFinishPurchase(true)}}className="btn btn-accent">Finalizar Compra</button>
+                        <button onClick={() => { setFinishPurchase(true) }} className="btn btn-accent">Finalizar Compra</button>
                         <Link to="/" className="btn btn-warning">Voltar</Link>
                     </div>
                     <span>Preço Final: R$ {currencyFormatter(String(totalCartPrice))}</span>
@@ -51,7 +52,7 @@ export const UserCart = () => {
             {finishPurchase &&
                 <div className="fixed w-52 lg:w-[23%] h-52 lg:h-[23%] bg-slate-200 drop-shadow-lg border-4  flex flex-col justify-between p-10 gap-4 transform -translate-52 ">
                     Funcionalidade ainda não foi implementada...
-                    <button onClick={() => {setFinishPurchase(false)}} className="btn btn-accent">Fechar</button>
+                    <button onClick={() => { setFinishPurchase(false) }} className="btn btn-accent">Fechar</button>
                 </div>
             }
         </div>
@@ -116,7 +117,7 @@ const ProductCard = ({ product, storageProducts, setStorageProducts }: any) => {
                 </div>
             </div>
             <button onClick={handleDelete} className="self-end w-6">
-                <svg fill="#000000" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><title>Deletar</title><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2.016 8q0 0.832 0.576 1.44t1.408 0.576v16q0 2.496 1.76 4.224t4.256 1.76h12q2.464 0 4.224-1.76t1.76-4.224v-16q0.832 0 1.408-0.576t0.608-1.44-0.608-1.408-1.408-0.576h-5.984q0-2.496-1.76-4.256t-4.256-1.76-4.256 1.76-1.728 4.256h-6.016q-0.832 0-1.408 0.576t-0.576 1.408zM8 26.016v-16h16v16q0 0.832-0.576 1.408t-1.408 0.576h-12q-0.832 0-1.44-0.576t-0.576-1.408zM10.016 26.016h1.984v-14.016h-1.984v14.016zM14.016 26.016h4v-14.016h-4v14.016zM14.016 6.016q0-0.832 0.576-1.408t1.408-0.608 1.408 0.608 0.608 1.408h-4zM20 26.016h2.016v-14.016h-2.016v14.016z"></path> </g></svg>
+                <TrashSvg />
             </button>
         </div>
     )
@@ -126,13 +127,13 @@ const ProductCard = ({ product, storageProducts, setStorageProducts }: any) => {
 const VisualNavbar = () => {
 
     return (
-(
-        <div className="bg-neutral fixed top-0 w-full">
-            <div className="text-white flex justify-between p-4 items-center   md:container m-auto ">
-                <a href="/" className="text-russo text-2xl underline decoration-accent ">E-Cart</a>
+        (
+            <div className="bg-neutral fixed top-0 w-full">
+                <div className="text-white flex justify-between p-4 items-center   md:container m-auto ">
+                    <a href="/" className="text-russo text-2xl underline decoration-accent ">E-Cart</a>
+                </div>
             </div>
-        </div>
-    )
+        )
 
     )
 }

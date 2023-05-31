@@ -61,7 +61,7 @@ router.post("/login", async (req, res) => {
         if (user.password)
             await comparePasswords(userInput.password, user.password);
         const token = await createToken(user);
-        res.cookie('authcookie', token, { httpOnly: true, maxAge: 36000 * 60 });
+        res.cookie('authcookie', token, { httpOnly: true, maxAge: 36000 * 60, sameSite:"strict" });
         return res.status(200).json({ token: token });
     } catch (err) {
         res.status(400).send("" + err);

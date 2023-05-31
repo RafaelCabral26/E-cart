@@ -12,11 +12,13 @@ origin:true,
 credentials:true,
 }
 app.use(cors(options))
-
+app.get("/hello", (req,res) => {
+    res.send("Healthy route")
+})
 app.use(express.json())
 app.use(cookieParser())
 app.use(allRoutes)
 
 app.listen(process.env.PORT || 3000, () => {
-    console.log('Escutando porta 3000')
+    console.log('Escutando porta ')
 })
