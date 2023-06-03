@@ -9,14 +9,7 @@ dotenv.config()
 connect()
 
 const app = express()
-const options:cors.CorsOptions = {
-origin:true,
-credentials:true,
-}
-app.use(cors(options))
-app.get("/hello", (req,res) => {
-    res.send("Healthy route")
-})
+app.use(cors({origin:true, credentials:true}))
 app.use(express.json())
 app.use(cookieParser())
 app.use(allRoutes)
