@@ -1,7 +1,7 @@
 import axios, {AxiosRequestConfig} from "axios";
 
 const configure:AxiosRequestConfig = {
-    baseURL:"http://localhost:3000/",
+    baseURL:"https://e-cart-api.onrender.com/",
     withCredentials:true,
     headers:{
         "Access-Control-Allow-Origin":"*",
