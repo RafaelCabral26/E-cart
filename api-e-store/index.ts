@@ -9,7 +9,14 @@ dotenv.config()
 connect()
 
 const app = express()
-app.use(cors({origin:true, credentials:true}))
+const options:cors.CorsOptions = {
+origin:"https://e-cart-murex.vercel.app",
+credentials:true,
+}
+app.use(cors(options))
+app.get("/hello", (req,res) => {
+    res.send("Healthy route")
+})
 app.use(express.json())
 app.use(cookieParser())
 app.use(allRoutes)

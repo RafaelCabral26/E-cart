@@ -42,7 +42,7 @@ export function ProductsPage({ productFilter, loggedIn,cartStorage, setCartStora
                         return val
                     }
                 }).map((e: any) => (
-                    <ProductsCard  name={e.product_name} price={e.product_price} description={e.product_description} photo={e.product_photo} setConfirmPurchaseModal={setConfirmPurchaseModal}></ProductsCard>
+                    <ProductsCard key={e.product_name} name={e.product_name} price={e.product_price} description={e.product_description} photo={e.product_photo} setConfirmPurchaseModal={setConfirmPurchaseModal}></ProductsCard>
                 ))
             }
             {confirmPurchaseModal.show ?
