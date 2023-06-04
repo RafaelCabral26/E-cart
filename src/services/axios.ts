@@ -11,7 +11,7 @@ const configure:AxiosRequestConfig = {
     
 };
 const configureDevelopment:AxiosRequestConfig = {
-    baseURL:"https://e-cart-api.onrender.com/",
+    baseURL:"http://localhost:3000",
     withCredentials:true,
     headers:{
         "Access-Control-Allow-Origin":"http://localhost:3000",

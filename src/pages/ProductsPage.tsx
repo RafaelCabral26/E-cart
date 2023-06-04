@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { CreateAlert } from "../components/AlertModal";
 import useLocalStorage from "../components/StorageHandler";
 import http from "../services/axios";
@@ -16,21 +16,22 @@ type TProduct = {
 export function ProductsPage({ productFilter, loggedIn,cartStorage, setCartStorage }: TFilter & TLoggedIn & TCartStorage) {
     const [productList, setProductList] = React.useState<TProduct[]>([]);
     const [confirmPurchaseModal, setConfirmPurchaseModal] = React.useState<{ show: boolean, product: {} }>({ show: false, product: {} })
+    const [serverState, setServerState] = useState<string>('hidden')
     React.useEffect(() => {
-
         http.get("/list_products")
             .then(res => {
                 setProductList(res.data.products)
             }).catch(err => {
+                setServerState("")
                 CreateAlert(err.response.data.msg, "alert-warning");
             })
-
     }, [])
 
 
 
     return (
         <div className="relative flex flex-wrap justify-center items-center xl:container m-auto  mt-10 md:mt-28 gap-4 ">
+             <dialog className={`rounded-lg fixed ${serverState} m-auto top-52 border-2 shadow-lg`} open>Espere 5 segundos e recarregue a página para ativar o servidor</dialog>
             {
                 productList.filter(val => {
                     if (productFilter === "") {
