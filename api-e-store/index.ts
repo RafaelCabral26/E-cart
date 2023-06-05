@@ -10,7 +10,7 @@ connect()
 
 const app = express()
 const options:cors.CorsOptions = {
-origin:"https://e-cart-murex.vercel.app",
+origin:process.env.NODE_ENV === "production" ? "https://e-cart-murex.vercel.app" : "http://localhost:3000",
 credentials:true,
 }
 app.use(cors(options))
