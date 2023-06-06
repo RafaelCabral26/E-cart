@@ -43,11 +43,13 @@ export const UserCart = () => {
                 </div>
                 <div className="m-10" >
                     <div className="flex gap-4">
-                        {storageProducts.length > 0 &&<button onClick={() => { setFinishPurchase(true) }} className="btn btn-accent">Finalizar Compra</button>
+                        {storageProducts.length > 0 && <button onClick={() => { setFinishPurchase(true) }} className="btn btn-accent">Finalizar Compra</button>
                         }
                         <Link to="/" className="btn btn-warning">Voltar</Link>
                     </div>
-                    <span>Preço Final: R$ {currencyFormatter(String(totalCartPrice))}</span>
+                    {storageProducts.length > 0 &&
+                        <span>Preço Final: R$ {currencyFormatter(String(totalCartPrice))}</span>
+                    }
                 </div>
             </div>
             {finishPurchase &&

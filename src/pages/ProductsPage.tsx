@@ -13,7 +13,7 @@ type TProduct = {
 }
 
 
-export function ProductsPage({ productFilter, loggedIn,cartStorage, setCartStorage }: TFilter & TLoggedIn & TCartStorage) {
+export function ProductsPage({ productFilter, loggedIn, cartStorage, setCartStorage }: TFilter & TLoggedIn & TCartStorage) {
     const [productList, setProductList] = React.useState<TProduct[]>([]);
     const [confirmPurchaseModal, setConfirmPurchaseModal] = React.useState<{ show: boolean, product: {} }>({ show: false, product: {} })
     const [serverState, setServerState] = useState<string>('hidden')
@@ -31,7 +31,9 @@ export function ProductsPage({ productFilter, loggedIn,cartStorage, setCartStora
 
     return (
         <div className="relative flex flex-wrap justify-center items-center xl:container m-auto  mt-10 md:mt-28 gap-4 ">
-             <dialog className={`rounded-lg fixed ${serverState} m-auto top-52 border-2 shadow-lg`} open>Espere 5 segundos e recarregue a página para ativar o servidor</dialog>
+            <div className={`rounded-lg fixed ${serverState} m-auto top-52 border-2 shadow-lg py-4 px-8`} >
+                Espere 5 segundos e recarregue a página para ativar o servidor
+            </div>
             {
                 productList.filter(val => {
                     if (productFilter === "") {
@@ -89,16 +91,16 @@ const ConfirmPurchaseWindow = ({ product, setConfirmPurchaseModal, loggedIn, car
         return setConfirmPurchaseModal({ show: false, products: {} })
     }
 
-    
+
     const addToCart = () => {
-        
+
         const repeatedProduct = cartStorage.some((e: any) => {
             if (e.name === product.name) {
                 return true
             }
             return false
         })
-        
+
         if (!repeatedProduct) {
             const productArray = cartStorage
             productArray.push(product)
