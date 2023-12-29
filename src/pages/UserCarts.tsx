@@ -28,7 +28,7 @@ export const UserCart = () => {
         handleStorage()
         window.addEventListener('storage', handleStorage)
         return () => window.removeEventListener('storage', handleStorage)
-    }, [])
+    }, [setStorageProducts])
 
     return (
         <div className="flex h-screen items-center justify-center bg-gray-100 ">
@@ -37,7 +37,7 @@ export const UserCart = () => {
                 <div className="flex flex-col items-center overflow-y-scroll  w-full">
                     {storageProducts.length === 0 ? <h1 className="m-auto">Carrinho Vazio...</h1> :
                         storageProducts.map((e: any) => {
-                            return <ProductCard product={e} key={e.name} storageProducts={storageProducts} setStorageProducts={setStorageProducts}></ProductCard>
+                            return <ProductCard product={e} key={e.name} storageProducts={storageProducts} setStorageProducts={setStorageProducts} handleStorage={handleStorage}></ProductCard>
                         })
                     }
                 </div>
@@ -63,7 +63,7 @@ export const UserCart = () => {
     )
 }
 
-const ProductCard = ({ product, storageProducts, setStorageProducts }: any) => {
+const ProductCard = ({ product, storageProducts, setStorageProducts, handleStorage }: any) => {
     const [quantity, setQuantity] = useState(1)
     useEffect(() => {
         const storage = JSON.parse(localStorage.cart)
@@ -86,7 +86,7 @@ const ProductCard = ({ product, storageProducts, setStorageProducts }: any) => {
         if (quantity > 1) await setQuantity(quantity - 1)
         window.dispatchEvent(new Event('storage'))
     }
-    const handleDelete = () => {
+    const handleDelete = async () => {
         const filteredProducts = storageProducts.filter((e: any) => {
             return e.name !== product.name
 
@@ -98,8 +98,8 @@ const ProductCard = ({ product, storageProducts, setStorageProducts }: any) => {
             .catch((err) => {
                 console.log(err);
             })
-        setStorageProducts(filteredProducts)
-        window.location.reload
+        await setStorageProducts(filteredProducts)
+        handleStorage();
     }
     return (
         <div className="flex justify-evenly items-center w-[90%] xl:w-[66%] py-4  border-b-2 border-slate-300 ">

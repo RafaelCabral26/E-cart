@@ -16,13 +16,14 @@ type TProduct = {
 export function ProductsPage({ productFilter, loggedIn, cartStorage, setCartStorage }: TFilter & TLoggedIn & TCartStorage) {
     const [productList, setProductList] = React.useState<TProduct[]>([]);
     const [confirmPurchaseModal, setConfirmPurchaseModal] = React.useState<{ show: boolean, product: {} }>({ show: false, product: {} })
-    const [serverState, setServerState] = useState<string>('hidden')
+    const [serverState, setServerState] = useState<string>('fixed')
     React.useEffect(() => {
         http.get("/list_products")
             .then(res => {
-                setProductList(res.data.products)
+                setProductList(res.data.products);
+                setServerState("hidden");
             }).catch(err => {
-                setServerState("")
+                setServerState("fixed");
                 CreateAlert(err.response.data.msg, "alert-warning");
             })
     }, [])
@@ -31,7 +32,7 @@ export function ProductsPage({ productFilter, loggedIn, cartStorage, setCartStor
 
     return (
         <div className="relative flex flex-wrap justify-center items-center xl:container m-auto  mt-10 md:mt-28 gap-4 ">
-            <div className={`rounded-lg fixed ${serverState} m-auto top-52 border-2 shadow-lg py-4 px-8`} >
+            <div className={`rounded-lg  ${serverState} m-auto top-52 border-2 shadow-lg py-4 px-8`} >
                 Espere 5 segundos e recarregue a página para ativar o servidor
             </div>
             {

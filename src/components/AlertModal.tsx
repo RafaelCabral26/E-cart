@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
 
-import { createRoot } from 'react-dom/client';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 
 
 export const AlertModal = ({message, type}:{message:string, type:string}) => {
@@ -31,8 +31,10 @@ export const CreateAlert = (message:string,type:"alert-success" | "alert-warning
         document.body.appendChild(div);
         
     }
+    if (div.hasChildNodes()) {
+    return hydrateRoot(div,<AlertModal message={message} type={type}/>);
+    }
     const container = createRoot(div)
-    
     container.render(<AlertModal message={message} type={type}/>)
     setTimeout(() => {
         container.unmount()
