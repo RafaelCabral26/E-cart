@@ -9,25 +9,28 @@ import { TrashSvg } from "../svgs/trash"
 export const UserCart = () => {
     const [storageProducts, setStorageProducts] = useLocalStorage("cart", [])
     const [totalCartPrice, setTotalCartPrice] = useState<number>()
-    const [finishPurchase, setFinishPurchase] = useState<boolean>(false)
+    const [formmatedPrice, setFormattedPrice ] = useState();
+    const [finishPurchase, setFinishPurchase] = useState<boolean>(false);
     const handleStorage: any = () => {
-        let totalPrice: number = 0
-        let checkStorage = localStorage.getItem("cart")
-        let storage = checkStorage ? JSON.parse(checkStorage) : []
+        let totalPrice: number = 0;
+        let checkStorage = localStorage.getItem("cart");
+        let storage = checkStorage ? JSON.parse(checkStorage) : [];
+        
         storage.forEach((e: any) => {
-            let price = currencyUnformat(e.price)
-            totalPrice += price * Number(e.quantity)
-
+            let price = currencyUnformat(e.price);
+            totalPrice += price * Number(e.quantity);
+            
         })
-        totalPrice
-        setTotalCartPrice(totalPrice)
-
+        
+        setTotalCartPrice(totalPrice);
+        const newPrice = currencyFormatter(String(totalCartPrice));
+        setFormattedPrice(newPrice);
     }
 
     useEffect(() => {
-        handleStorage()
-        window.addEventListener('storage', handleStorage)
-        return () => window.removeEventListener('storage', handleStorage)
+        handleStorage();
+        window.addEventListener('storage', handleStorage);
+        return () => window.removeEventListener('storage', handleStorage);
     }, [setStorageProducts])
 
     return (
@@ -37,7 +40,7 @@ export const UserCart = () => {
                 <div className="flex flex-col items-center overflow-y-scroll  w-full">
                     {storageProducts.length === 0 ? <h1 className="m-auto">Carrinho Vazio...</h1> :
                         storageProducts.map((e: any) => {
-                            return <ProductCard product={e} key={e.name} storageProducts={storageProducts} setStorageProducts={setStorageProducts} handleStorage={handleStorage}></ProductCard>
+                            return <ProductCard product={e} key={e.name} storageProducts={storageProducts} setStorageProducts={setStorageProducts} handleStorage={handleStorage} ></ProductCard>
                         })
                     }
                 </div>
@@ -48,7 +51,7 @@ export const UserCart = () => {
                         <Link to="/" className="btn btn-warning">Voltar</Link>
                     </div>
                     {storageProducts.length > 0 &&
-                        <span>Preço Final: R$ {currencyFormatter(String(totalCartPrice))}</span>
+                        <span>Preço Final: R$ {formmatedPrice}</span>
                     }
                 </div>
             </div>
@@ -63,20 +66,18 @@ export const UserCart = () => {
     )
 }
 
-const ProductCard = ({ product, storageProducts, setStorageProducts, handleStorage }: any) => {
+const ProductCard = ({ product, storageProducts, setStorageProducts, handleStorage  }: any) => {
     const [quantity, setQuantity] = useState(1)
     useEffect(() => {
-        const storage = JSON.parse(localStorage.cart)
+        const storage = JSON.parse(localStorage.cart);
         storage.forEach((e: any) => {
-            if (product.name === e.name) e.quantity = quantity
-
+            if (product.name === e.name) e.quantity = quantity;
         })
-
-        localStorage.setItem("cart", JSON.stringify(storage))
+        localStorage.setItem("cart", JSON.stringify(storage));
     }, [quantity])
-    const price = currencyUnformat(product.price)
-    const total = price * quantity
-    const outputPrice = currencyFormatter(String(total))
+    const price = currencyUnformat(product.price);
+    const total = price * quantity;
+    const outputPrice = currencyFormatter(String(total));
 
     const increment = async () => {
         if (quantity < 10) await setQuantity(quantity + 1)
@@ -89,18 +90,18 @@ const ProductCard = ({ product, storageProducts, setStorageProducts, handleStora
     const handleDelete = async () => {
         const filteredProducts = storageProducts.filter((e: any) => {
             return e.name !== product.name
-
         })
+        await setStorageProducts(filteredProducts);
         http.post("/delete_product", product)
-            .then((req) => {
-                CreateAlert(req.data, "alert-success")
+            .then( (req) => {
+                CreateAlert(req.data, "alert-success");
             })
             .catch((err) => {
                 console.log(err);
             })
-        await setStorageProducts(filteredProducts)
-        handleStorage();
+        window.location.reload();
     }
+
     return (
         <div className="flex justify-evenly items-center w-[90%] xl:w-[66%] py-4  border-b-2 border-slate-300 ">
             <div className="flex flex-col sm:flex-row items-center ">
